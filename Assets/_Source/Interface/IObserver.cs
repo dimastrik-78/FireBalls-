@@ -2,6 +2,6 @@
 {
     public interface IObserver
     {
-        void OnNotify(int number);
+        void OnNotify(int point);
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,25 +7,27 @@ using Service;
 
 namespace GunSystem
 {
-    public class ListenerInput : MonoBehaviour, IObservable
+    public class ListenerInput : MonoBehaviour
     {
+        public static Action<int> CountBullet;
+
         [SerializeField] private GameObject prefabBullet;
         [SerializeField] private Transform spawnPoint;
         [SerializeField] private int countBullets;
         [SerializeField] private float recharge;
 
         private Action _action;
-        private List<IObserver> _observers;
         private float _variableRecharge;
         private int _remainingBullets;
 
-        void Awake()
+        void Start()
         {
             _action = new Action();
-            _observers = new List<IObserver>();
 
             _variableRecharge = recharge;
             _remainingBullets = countBullets;
+            
+            CountBullet?.Invoke(_remainingBullets);
         }
 
         void Update()
@@ -40,7 +43,7 @@ namespace GunSystem
                 {
                     _variableRecharge = recharge;
                     _remainingBullets = countBullets;
-                    Notify();
+                    CountBullet?.Invoke(_remainingBullets);
                 }
             }
         }
@@ -51,25 +54,7 @@ namespace GunSystem
             {
                 _action.Shoot(prefabBullet, spawnPoint);
                 _remainingBullets--;
-                Notify();
-            }
-        }
-        
-        public void Register(IObserver observer)
-        {
-            _observers.Add(observer);
-        }
-
-        public void Remove(IObserver observer)
-        {
-            _observers.Remove(observer);
-        }
-
-        public void Notify()
-        {
-            for (int i = 0; i < _observers.Count; i++)
-            {
-                _observers[i].OnNotify(_remainingBullets);
+                CountBullet?.Invoke(_remainingBullets);
             }
         }
     }

@@ -1,4 +1,3 @@
-using Interface;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -26,6 +25,11 @@ namespace UISystem
         public void ChangeCountBullet()
         {
             image.fillAmount = (float)_model.CountBullet / _model.MaxCountBullet;
+        }
+
+        public void ChangeState()
+        {
+            Controller.ChangeState();
         }
     }
 }

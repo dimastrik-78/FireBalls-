@@ -12,6 +12,8 @@ namespace LevelSystem
         [SerializeField] private List<int> countPancake;
         [SerializeField] private ObstacleSO obstacle;
 
-        public Dictionary<PancakeSO, int> SpawnPancake;
+        public List<PancakeSO> Pancake => pancake;
+        public List<int> CountPancake => countPancake;
+        public ObstacleSO Obstacle => obstacle;
     }
 }

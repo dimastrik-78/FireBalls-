@@ -7,19 +7,18 @@ namespace ObstacleSystem
     public class Obstacle : MonoBehaviour, IObservable
     {
         [SerializeField] private ObstacleSO obstacleInfo;
-        [SerializeField] private Transform centralPointPancakes;
         [SerializeField] private float speedRotate;
         
-        private List<IObserver> _observers;
+        private List<IObserver> _observers = new();
 
         private void Start()
         {
-            _observers = new List<IObserver>();
+            transform.LookAt(Vector3.zero);
         }
-        
+
         void Update()
         {
-            transform.RotateAround(centralPointPancakes.position, Vector3.up, speedRotate * Time.deltaTime);
+            transform.RotateAround(Vector3.zero, Vector3.up, speedRotate * Time.deltaTime);
         }
 
         private void OnCollisionEnter(Collision collision)

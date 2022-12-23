@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace UISystem
 {
     public class Model

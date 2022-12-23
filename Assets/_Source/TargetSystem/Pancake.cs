@@ -7,20 +7,20 @@ namespace TargetSystem
 {
     public class Pancake : MonoBehaviour, IObservable
     {
+        public static event Action OnDestroy;
+
         [SerializeField] private PancakeSO pancakeInfo;
 
-        private List<IObserver> _observers;
-
-        private void Start()
-        {
-            _observers = new List<IObserver>();
-        }
+        private List<IObserver> _observers = new();
 
         private void OnCollisionEnter(Collision collision)
         {
             if (collision.gameObject.layer == 6)
             {
                 Notify();
+                
+                OnDestroy?.Invoke();
+                
                 Destroy(gameObject);
             }
         }

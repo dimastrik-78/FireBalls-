@@ -1,9 +1,8 @@
-﻿using Interface;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace GunSystem
 {
-    public class Action
+    public class GunAction
     {
         public void Shoot(GameObject bullet, Transform spawnPoint)
         {

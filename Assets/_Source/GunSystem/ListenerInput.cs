@@ -1,28 +1,25 @@
 using System;
 using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
-using Interface;
 using Service;
 
 namespace GunSystem
 {
     public class ListenerInput : MonoBehaviour
     {
-        public static Action<int> CountBullet;
+        public static event Action<int> CountBullet;
 
         [SerializeField] private GameObject prefabBullet;
         [SerializeField] private Transform spawnPoint;
         [SerializeField] private int countBullets;
         [SerializeField] private float recharge;
 
-        private Action _action;
+        private GunAction _gunAction;
         private float _variableRecharge;
         private int _remainingBullets;
 
         void Start()
         {
-            _action = new Action();
+            _gunAction = new GunAction();
 
             _variableRecharge = recharge;
             _remainingBullets = countBullets;
@@ -32,7 +29,8 @@ namespace GunSystem
 
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Mouse0))
+            if (Input.GetKeyDown(KeyCode.Mouse0)
+                && Time.timeScale != 0)
             {
                 Shooting();
             }
@@ -52,7 +50,7 @@ namespace GunSystem
         {
             if (_remainingBullets > 0)
             {
-                _action.Shoot(prefabBullet, spawnPoint);
+                _gunAction.Shoot(prefabBullet, spawnPoint);
                 _remainingBullets--;
                 CountBullet?.Invoke(_remainingBullets);
             }

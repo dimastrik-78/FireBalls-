@@ -1,13 +1,15 @@
-using System.Collections.Generic;
 using GunSystem;
 using Interface;
-using UnityEngine;
+using System;
+using StateSystem;
 
 namespace UISystem
 {
     public class Controller : IObserver
     {
-        private List<IObserver> _observers;
+        public static event Action<int> Point;
+        public static event Action<Type> ChangeStateGame;
+
         private View _view;
         private Model _model;
         
@@ -44,17 +46,13 @@ namespace UISystem
             _model.Point += point;
             
             _view.ChangePoint();
-            // if (_model.MaxCountBullet == 0)
-            // {
-            //     _model.MaxCountBullet = countBullet;
-            //     _model.CountBullet = countBullet;
-            // }
-            // else
-            // {
-            //     _model.CountBullet = countBullet;
-            // }
-            //
-            // _view.ChangeCountBullet();
+            
+            Point?.Invoke(_model.Point);
+        }
+
+        public void ChangeState()
+        {
+            ChangeStateGame?.Invoke(typeof(Play));
         }
     }
 }
